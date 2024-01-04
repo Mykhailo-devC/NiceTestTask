@@ -1,4 +1,4 @@
 {
-  "DataFormat": "dd/MM/yyyy",
-  "IntervalInSeconds": 2
+  "DataFormat": "dd/MM/yyyy hh:mm:ss",
+  "IntervalInSeconds": 1
 }
