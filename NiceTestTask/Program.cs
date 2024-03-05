@@ -3,3 +3,4 @@
 notificator.Start();
 Console.ReadKey();
 notificator.Stop();
+

@@ -5,23 +5,23 @@ public class NotificatorConfigHandler
     private string WORKING_DIRECTORY = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
     private string CONFIG_FILE_NAME = "configuration.json";
 
-    private NotificatorConfigData _configData;
+    private NotificatorConfiguration _configData;
     private FileSystemWatcher _watcher;
 
     public NotificatorConfigHandler()
     {
-        _configData = new NotificatorConfigData();
+        _configData = new NotificatorConfiguration();
         InitWatcher();
     }
 
-    public virtual async Task<NotificatorConfigData> GetConfiguration()
+    public virtual async Task<NotificatorConfiguration> GetConfiguration()
     {
         try
         {
             using (StreamReader stream = new StreamReader(Path.Combine(WORKING_DIRECTORY ,CONFIG_FILE_NAME)))
             {
                 string json = await stream.ReadToEndAsync();
-                var config = JsonConvert.DeserializeObject<NotificatorConfigData>(json);
+                var config = JsonConvert.DeserializeObject<NotificatorConfiguration>(json);
 
                 if(!ValidateConfigData(config))
                 {
@@ -62,7 +62,7 @@ public class NotificatorConfigHandler
         }
     }
 
-    private bool ValidateConfigData(NotificatorConfigData config)
+    private bool ValidateConfigData(NotificatorConfiguration config)
     {
         if (config == null)
         {

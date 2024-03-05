@@ -15,11 +15,11 @@ namespace NiceTestTask.Tests
 
 
             _mockConfigHandler = new Mock<NotificatorConfigHandler>();
-            _mockConfigHandler.Setup(x => x.GetConfiguration()).ReturnsAsync(new NotificatorConfigData()).Verifiable();
+            _mockConfigHandler.Setup(x => x.GetConfiguration()).ReturnsAsync(new NotificatorConfiguration()).Verifiable();
             _mockConfigHandler.Setup(x => x.SubscribeToWatcher(new Mock<FileSystemEventHandler>().Object)).Verifiable();
 
             _mockNotificator = new Mock<DateNotificator>();
-            _mockNotificator.Setup(x => x.SetConfiguration(new NotificatorConfigData())).Verifiable();
+            _mockNotificator.Setup(x => x.SetConfiguration(new NotificatorConfiguration())).Verifiable();
             _mockNotificator.Setup(x => x.NotifyDate()).Verifiable();
 
 

@@ -1,17 +1,15 @@
 ﻿public class DateNotificator
 {
-    private string _dateFormat;
-    private int _interval;
+    private NotificatorConfiguration _config;
 
-    public virtual void SetConfiguration(NotificatorConfigData configData)
+    public void SetConfiguration(NotificatorConfiguration config)
     {
-        _dateFormat = configData.DataFormat;
-        _interval = configData.IntervalInSeconds;
+        _config = config;
     }
 
-    public virtual void NotifyDate()
+    public void NotifyDate()
     {
-        Console.WriteLine("New notification - {0}", DateTime.Now.ToString(_dateFormat));
-        Task.Delay(TimeSpan.FromSeconds(_interval)).Wait();
+        Console.WriteLine("New notification - {0}", DateTime.Now.ToString(_config.DataFormat));
+        Task.Delay(TimeSpan.FromSeconds(_config.IntervalInSeconds)).Wait();
     }
 }

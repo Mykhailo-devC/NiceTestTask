@@ -23,7 +23,7 @@ namespace NiceTestTask.Tests
             _configHandler.GetType().GetMethod("InitWatcher", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(_configHandler, null);
         }
 
-        private void SetupLocalConfigFile(NotificatorConfigData configData)
+        private void SetupLocalConfigFile(NotificatorConfiguration configData)
         {
             string json = JsonConvert.SerializeObject(configData, Formatting.Indented);
 
@@ -69,7 +69,7 @@ namespace NiceTestTask.Tests
         public async Task GetConfiguration_ValidFile_ReturnsConfigData(string dateFormat, int interval)
         {
             // Arrange
-            var expectedConfig = new NotificatorConfigData { DataFormat = dateFormat, IntervalInSeconds = interval };
+            var expectedConfig = new NotificatorConfiguration { DataFormat = dateFormat, IntervalInSeconds = interval };
 
             // Act
             SetupLocalConfigFile(expectedConfig);
@@ -88,7 +88,7 @@ namespace NiceTestTask.Tests
         public async Task GetConfiguration_InvalidFile_ReturnsConfigData(string dateFormat, int interval)
         {
             // Arrange
-            var expectedConfig = new NotificatorConfigData { DataFormat = dateFormat, IntervalInSeconds = interval };
+            var expectedConfig = new NotificatorConfiguration { DataFormat = dateFormat, IntervalInSeconds = interval };
 
             // Act
             SetupLocalConfigFile(expectedConfig);
@@ -101,7 +101,7 @@ namespace NiceTestTask.Tests
         public void SubscribeToWatcher_EventHandlerSubscribed()
         {
             // Arrange
-            var expectedConfig = new NotificatorConfigData { DataFormat = "yyyy-MM-dd", IntervalInSeconds = 1 };
+            var expectedConfig = new NotificatorConfiguration { DataFormat = "yyyy-MM-dd", IntervalInSeconds = 1 };
             bool eventHandlerCalled = false;
 
             // Act
@@ -122,7 +122,7 @@ namespace NiceTestTask.Tests
         public void ValidateConfigData_ValidConfig_ReturnsTrue(string dataFormat, int interval)
         {
             // Arrange
-            var expectedConfig = new NotificatorConfigData { DataFormat = dataFormat, IntervalInSeconds = interval };
+            var expectedConfig = new NotificatorConfiguration { DataFormat = dataFormat, IntervalInSeconds = interval };
 
             // Act
 
@@ -139,7 +139,7 @@ namespace NiceTestTask.Tests
         public void ValidateConfigData_InvalidConfig_ReturnsFalse(string dataFormat, int interval)
         {
             // Arrange
-            var expectedConfig = new NotificatorConfigData { DataFormat = dataFormat, IntervalInSeconds = interval };
+            var expectedConfig = new NotificatorConfiguration { DataFormat = dataFormat, IntervalInSeconds = interval };
 
             // Act
 
@@ -153,7 +153,7 @@ namespace NiceTestTask.Tests
         public void ValidateConfigData_NullConfig_ReturnsFalse()
         {
             // Arrange
-            NotificatorConfigData config = null;
+            NotificatorConfiguration config = null;
 
             // Act
             var isValid = (bool)_configHandler.GetType().GetMethod("ValidateConfigData", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(_configHandler, new object[] { config });

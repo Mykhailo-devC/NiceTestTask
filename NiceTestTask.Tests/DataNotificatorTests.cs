@@ -10,7 +10,60 @@ namespace NiceTestTask.Tests
             _notificator = new DateNotificator();
         }
 
+        [Fact]
+        public void ConfigurationNotSet_NotifyDateThrowNullReferenceException()
+        {
+            var action = _notificator.NotifyDate;
+
+            Assert.Throws<NullReferenceException>(action);
+        }
+
         [Theory]
+        [InlineData("yyyy-MM-dd", -1)]
+        [InlineData(null, -10)]
+        public void InvalidConfigurationSet_NotifyDateThrowArgumentOutOfRangeException(string format, int interval)
+        {
+            var config = new NotificatorConfiguration() { DataFormat = format, IntervalInSeconds = interval };
+            _notificator.SetConfiguration(config);
+
+            var action = _notificator.NotifyDate;
+
+            Assert.Throws<ArgumentOutOfRangeException>(action);
+        }
+
+        [Theory]
+        [InlineData("yyyy-MM-dd", 1)]
+        [InlineData("yyyy", 0)]
+        public void ValidConfigurationSet_NotifyDateWriteLineToConsole(string format, int interval)
+        {
+            //Arrange
+            var expectedDate = DateTime.Now.AddSeconds(interval);
+            var expected = "New notification - " + expectedDate.ToString(format);
+
+            var config = new NotificatorConfiguration() { DataFormat = format, IntervalInSeconds = interval };
+            _notificator.SetConfiguration(config);
+
+            //Act
+
+            var actual = GetConsoleOutputAfterAction(_notificator.NotifyDate);
+
+            //Assert
+            Assert.Equal(expected, actual);
+        }
+
+        private string GetConsoleOutputAfterAction(Action action)
+        {
+            var consoleOut = new StringWriter();
+            Console.SetOut(consoleOut);
+
+            action.Invoke();
+
+            consoleOut.Flush();
+            return consoleOut.ToString().Trim();
+
+        }
+
+        /*[Theory]
         [InlineData("yyyy-MM-dd", 1)]
         [InlineData("yyyy-MM-dd", null)]
         [InlineData(null, 5)]
@@ -88,6 +141,6 @@ namespace NiceTestTask.Tests
             }
 
             return notification;
-        }
+        }*/
     }
 }
